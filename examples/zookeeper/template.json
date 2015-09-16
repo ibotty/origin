@@ -199,154 +199,196 @@
       }
     },
     {
-      "kind": "Pod",
+      "kind": "ReplicationController",
       "apiVersion": "v1",
       "metadata": {
         "name": "zookeeper-1",
         "creationTimestamp": null,
         "labels": {
-          "name": "zookeeper",
-          "server-id": "1"
+          "name": "zookeeper"
         }
       },
       "spec": {
-        "containers": [
-          {
-            "name": "server",
-            "image": "${ZOOKEEPER_IMAGE}",
-            "ports": [
-              {
-                "containerPort": 2181,
-                "protocol": "TCP"
-              },
-              {
-                "containerPort": 2888,
-                "protocol": "TCP"
-              },
-              {
-                "containerPort": 3888,
-                "protocol": "TCP"
-              }
-            ],
-            "env": [
-              {
-                "name": "SERVER_ID",
-                "value": "1"
-              }
-            ],
-            "resources": {},
-            "terminationMessagePath": "/dev/termination-log",
-            "imagePullPolicy": "IfNotPresent",
-            "securityContext": {
-              "capabilities": {},
-              "privileged": false
+        "replicas": 1,
+        "selector": {
+          "name": "zookeeper",
+          "server-id": "1"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "zookeeper",
+              "server-id": "1"
             }
-          }
-        ],
-        "restartPolicy": "Always",
-        "dnsPolicy": "ClusterFirst"
-      },
-      "status": {}
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "server",
+                "image": "${ZOOKEEPER_IMAGE}",
+                "ports": [
+                  {
+                    "containerPort": 2181,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 2888,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 3888,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "SERVER_ID",
+                    "value": "1"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          },
+          "status": {}
+        }
+      }
     },
     {
-      "kind": "Pod",
+      "kind": "ReplicationController",
       "apiVersion": "v1",
       "metadata": {
         "name": "zookeeper-2",
         "creationTimestamp": null,
         "labels": {
-          "name": "zookeeper",
-          "server-id": "2"
+          "name": "zookeeper"
         }
       },
       "spec": {
-        "containers": [
-          {
-            "name": "server",
-            "image": "${ZOOKEEPER_IMAGE}",
-            "ports": [
-              {
-                "containerPort": 2181,
-                "protocol": "TCP"
-              },
-              {
-                "containerPort": 2888,
-                "protocol": "TCP"
-              },
-              {
-                "containerPort": 3888,
-                "protocol": "TCP"
-              }
-            ],
-            "env": [
-              {
-                "name": "SERVER_ID",
-                "value": "2"
-              }
-            ],
-            "resources": {},
-            "terminationMessagePath": "/dev/termination-log",
-            "imagePullPolicy": "IfNotPresent",
-            "securityContext": {
-              "capabilities": {},
-              "privileged": false
+        "replicas": 1,
+        "selector": {
+          "name": "zookeeper",
+          "server-id": "2"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "zookeeper",
+              "server-id": "2"
             }
-          }
-        ],
-        "restartPolicy": "Always",
-        "dnsPolicy": "ClusterFirst"
-      },
-      "status": {}
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "server",
+                "image": "${ZOOKEEPER_IMAGE}",
+                "ports": [
+                  {
+                    "containerPort": 2181,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 2888,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 3888,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "SERVER_ID",
+                    "value": "2"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          },
+          "status": {}
+        }
+      }
     },
     {
-      "kind": "Pod",
+      "kind": "ReplicationController",
       "apiVersion": "v1",
       "metadata": {
         "name": "zookeeper-3",
         "creationTimestamp": null,
         "labels": {
-          "name": "zookeeper",
-          "server-id": "3"
+          "name": "zookeeper"
         }
       },
       "spec": {
-        "containers": [
-          {
-            "name": "server",
-            "image": "${ZOOKEEPER_IMAGE}",
-            "ports": [
-              {
-                "containerPort": 2181,
-                "protocol": "TCP"
-              },
-              {
-                "containerPort": 2888,
-                "protocol": "TCP"
-              },
-              {
-                "containerPort": 3888,
-                "protocol": "TCP"
-              }
-            ],
-            "env": [
-              {
-                "name": "SERVER_ID",
-                "value": "3"
-              }
-            ],
-            "resources": {},
-            "terminationMessagePath": "/dev/termination-log",
-            "imagePullPolicy": "IfNotPresent",
-            "securityContext": {
-              "capabilities": {},
-              "privileged": false
+        "replicas": 1,
+        "selector": {
+          "name": "zookeeper",
+          "server-id": "3"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "zookeeper",
+              "server-id": "3"
             }
-          }
-        ],
-        "restartPolicy": "Always",
-        "dnsPolicy": "ClusterFirst"
-      },
-      "status": {}
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "server",
+                "image": "${ZOOKEEPER_IMAGE}",
+                "ports": [
+                  {
+                    "containerPort": 2181,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 2888,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 3888,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "SERVER_ID",
+                    "value": "3"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          },
+          "status": {}
+        }
+      }
     }
   ],
   "parameters": [
