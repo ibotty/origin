@@ -15,12 +15,14 @@ RUN  curl http://apache.mirrors.pair.com/zookeeper/zookeeper-${ZOOKEEPER_VERSION
     && mkdir -p /opt/zookeeper/{data,log}
 
 WORKDIR /opt/zookeeper
+
+# Fix the permissions when running in OpenShift
+# has to be _before_ the volume declaration
+RUN chmod -R a+rwx /opt/zookeeper/conf /opt/zookeeper/data /opt/zookeeper/log
+
 VOLUME ["/opt/zookeeper/conf", "/opt/zookeeper/data", "/opt/zookeeper/log"]
 
 COPY config-and-run.sh ./bin/
 COPY zoo-template.cfg ./conf/
-
-# Fix the permissions when running in OpenShift
-RUN chmod -R a+rwx /opt/zookeeper/conf /opt/zookeeper/data /opt/zookeeper/log
 
 CMD ["/opt/zookeeper/bin/config-and-run.sh"]
