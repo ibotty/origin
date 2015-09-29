@@ -11,6 +11,8 @@ set -o pipefail
 
 OS_ROOT=$(dirname "${BASH_SOURCE}")/..
 source "${OS_ROOT}/hack/common.sh"
+source "${OS_ROOT}/hack/util.sh"
+os::log::install_errexit
 
 # Go to the top of the tree.
 cd "${OS_ROOT}"
@@ -19,19 +21,19 @@ context="${OS_ROOT}/_output/buildenv-context"
 
 # Clean existing output.
 rm -rf "${OS_LOCAL_RELEASEPATH}"
-rm -rf "${OS_LOCAL_BINPATH}"
 rm -rf "${context}"
 mkdir -p "${context}"
 mkdir -p "${OS_OUTPUT}"
 
 # Generate version definitions.
+# You can commit a specific version by specifying OS_GIT_COMMIT="" prior to build
 os::build::get_version_vars
 os::build::save_version_vars "${context}/os-version-defs"
 
 echo "++ Building release ${OS_GIT_VERSION}"
 
 # Create the input archive.
-git archive --format=tar -o "${context}/archive.tar" HEAD
+git archive --format=tar -o "${context}/archive.tar" "${OS_GIT_COMMIT}"
 tar -rf "${context}/archive.tar" -C "${context}" os-version-defs
 gzip -f "${context}/archive.tar"
 

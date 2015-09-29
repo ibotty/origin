@@ -41,6 +41,12 @@ oc delete services frontend
 echo "services: ok"
 
 oc get nodes
+(
+  # subshell so we can unset kubeconfig
+  cfg="${KUBECONFIG}"
+  unset KUBECONFIG
+  kubectl get nodes --kubeconfig="${cfg}"
+)
 echo "nodes: ok"
 
 oc get routes
@@ -65,6 +71,10 @@ echo "expose: ok"
 
 oc delete all --all
 
+# switch to test user to be sure that default project admin policy works properly
+oc policy add-role-to-user admin test-user
+oc login -u test-user -p anything
+
 oc run --image=openshift/hello-openshift test
 oc run --image=openshift/hello-openshift --generator=run-controller/v1 test2
 oc run --image=openshift/hello-openshift --restart=Never test3
@@ -74,6 +84,11 @@ oc process -f examples/sample-app/application-template-stibuild.json -l name=myt
 oc delete all -l name=mytemplate
 oc new-app https://github.com/openshift/ruby-hello-world
 [ "$(oc get dc/ruby-hello-world)" ]
+
+oc get dc/ruby-hello-world -t '{{ .spec.replicas }}' | grep -q 1
+oc patch dc/ruby-hello-world -p '{"spec": {"replicas": 2}}'
+oc get dc/ruby-hello-world -t '{{ .spec.replicas }}' | grep -q 2
+
 oc delete all -l app=ruby-hello-world
 [ ! "$(oc get dc/ruby-hello-world)" ]
 echo "delete all: ok"

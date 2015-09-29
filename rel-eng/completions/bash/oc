@@ -220,11 +220,11 @@ __oc_require_pod_and_container()
 
 __custom_func() {
     case ${last_command} in
-        oc_get | oc_describe | oc_delete)
+        oc_get | oc_describe | oc_delete | oc_label | oc_stop | oc_expose | oc_export | oc_patch | oc_annotate | oc_env | oc_edit | oc_volume)
             __oc_get_resource
             return
             ;;
-        oc_log)
+        oc_logs)
             __oc_require_pod_and_container
             return
             ;;
@@ -466,6 +466,8 @@ _oc_new-build()
 
     flags+=("--code=")
     flags+=("--docker-image=")
+    flags+=("--dockerfile=")
+    two_word_flags+=("-D")
     flags+=("--env=")
     two_word_flags+=("-e")
     flags+=("--image=")
@@ -731,7 +733,11 @@ _oc_env()
     flags+=("--env=")
     two_word_flags+=("-e")
     flags+=("--filename=")
+    flags_with_completion+=("--filename")
+    flags_completion+=("__handle_filename_extension_flag yaml|yml|json")
     two_word_flags+=("-f")
+    flags_with_completion+=("-f")
+    flags_completion+=("__handle_filename_extension_flag yaml|yml|json")
     flags+=("--list")
     flags+=("--output=")
     two_word_flags+=("-o")
@@ -764,7 +770,11 @@ _oc_volume()
     flags+=("--containers=")
     two_word_flags+=("-c")
     flags+=("--filename=")
+    flags_with_completion+=("--filename")
+    flags_completion+=("__handle_filename_extension_flag yaml|yml|json")
     two_word_flags+=("-f")
+    flags_with_completion+=("-f")
+    flags_completion+=("__handle_filename_extension_flag yaml|yml|json")
     flags+=("--list")
     flags+=("--mount-path=")
     two_word_flags+=("-m")
@@ -1132,7 +1142,11 @@ _oc_process()
     flags_completion=()
 
     flags+=("--filename=")
+    flags_with_completion+=("--filename")
+    flags_completion+=("__handle_filename_extension_flag yaml|yml|json")
     two_word_flags+=("-f")
+    flags_with_completion+=("-f")
+    flags_completion+=("__handle_filename_extension_flag yaml|yml|json")
     flags+=("--labels=")
     two_word_flags+=("-l")
     flags+=("--output=")
@@ -1422,6 +1436,66 @@ _oc_secrets_new-dockercfg()
     must_have_one_noun=()
 }
 
+_oc_secrets_new-basicauth()
+{
+    last_command="oc_secrets_new-basicauth"
+    commands=()
+
+    flags=()
+    two_word_flags=()
+    flags_with_completion=()
+    flags_completion=()
+
+    flags+=("--ca-cert=")
+    flags_with_completion+=("--ca-cert")
+    flags_completion+=("_filedir")
+    flags+=("--gitconfig=")
+    flags_with_completion+=("--gitconfig")
+    flags_completion+=("_filedir")
+    flags+=("--no-headers")
+    flags+=("--output=")
+    two_word_flags+=("-o")
+    flags+=("--output-version=")
+    flags+=("--password=")
+    flags+=("--prompt")
+    flags+=("--template=")
+    two_word_flags+=("-t")
+    flags+=("--username=")
+
+    must_have_one_flag=()
+    must_have_one_noun=()
+}
+
+_oc_secrets_new-sshauth()
+{
+    last_command="oc_secrets_new-sshauth"
+    commands=()
+
+    flags=()
+    two_word_flags=()
+    flags_with_completion=()
+    flags_completion=()
+
+    flags+=("--ca-cert=")
+    flags_with_completion+=("--ca-cert")
+    flags_completion+=("_filedir")
+    flags+=("--gitconfig=")
+    flags_with_completion+=("--gitconfig")
+    flags_completion+=("_filedir")
+    flags+=("--no-headers")
+    flags+=("--output=")
+    two_word_flags+=("-o")
+    flags+=("--output-version=")
+    flags+=("--ssh-privatekey=")
+    flags_with_completion+=("--ssh-privatekey")
+    flags_completion+=("_filedir")
+    flags+=("--template=")
+    two_word_flags+=("-t")
+
+    must_have_one_flag=()
+    must_have_one_noun=()
+}
+
 _oc_secrets_add()
 {
     last_command="oc_secrets_add"
@@ -1444,6 +1518,8 @@ _oc_secrets()
     commands=()
     commands+=("new")
     commands+=("new-dockercfg")
+    commands+=("new-basicauth")
+    commands+=("new-sshauth")
     commands+=("add")
 
     flags=()
