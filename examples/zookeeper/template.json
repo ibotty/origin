@@ -12,6 +12,34 @@
   },
   "objects": [
     {
+      "kind": "ServiceAccount",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "zookeeper"
+      }
+    },
+    {
+      "kind": "SecurityContextConstraints",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "allowhostports"
+      },
+      "allowHostDirVolumePlugin": false,
+      "allowHostNetwork": false,
+      "allowHostPorts": true,
+      "allowPrivilegedContainer": false,
+      "allowedCapabilities": null,
+      "runAsUser": {
+        "type": "MustRunAsRange"
+      },
+      "seLinuxContext": {
+        "type": "MustRunAs"
+      },
+      "users": [
+        "system:serviceaccount:default:zookeeper"
+      ]
+    },
+    {
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
@@ -229,6 +257,7 @@
                 "ports": [
                   {
                     "containerPort": 2181,
+                    "hostPort": 2181,
                     "protocol": "TCP"
                   },
                   {
@@ -255,6 +284,7 @@
                 }
               }
             ],
+            "serviceAccount": "zookeeper",
             "restartPolicy": "Always",
             "dnsPolicy": "ClusterFirst"
           },
@@ -293,6 +323,7 @@
                 "ports": [
                   {
                     "containerPort": 2181,
+                    "hostPort": 2181,
                     "protocol": "TCP"
                   },
                   {
@@ -319,6 +350,7 @@
                 }
               }
             ],
+            "serviceAccount": "zookeeper",
             "restartPolicy": "Always",
             "dnsPolicy": "ClusterFirst"
           },
@@ -357,6 +389,7 @@
                 "ports": [
                   {
                     "containerPort": 2181,
+                    "hostPort": 2181,
                     "protocol": "TCP"
                   },
                   {
@@ -383,6 +416,7 @@
                 }
               }
             ],
+            "serviceAccount": "zookeeper",
             "restartPolicy": "Always",
             "dnsPolicy": "ClusterFirst"
           },
